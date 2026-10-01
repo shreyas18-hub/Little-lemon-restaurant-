@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Little Lemon – Book a Table</title>
+<style>
+:root{--g:#495E57;--y:#F4CE14;--o:#EE9972;--bg:#fff;--fg:#222;--card:#EDEFEE;--err:#b00020;--line:#999;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1f1e;--fg:#eee;--card:#2a302e;--err:#ff8a80;--line:#777}}
+:root[data-theme="dark"]{--bg:#1b1f1e;--fg:#eee;--card:#2a302e;--err:#ff8a80;--line:#777}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 Georgia,"Times New Roman",serif}
+h1,h2,h3{font-family:"Trebuchet MS",system-ui,sans-serif;line-height:1.2}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--o);outline-offset:2px}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--y);color:#000;padding:8px;z-index:9}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:14px 5%}
+.logo{font:700 1.6rem "Trebuchet MS",sans-serif;color:var(--g);text-decoration:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .logo{color:var(--y)}}
+nav ul{display:flex;flex-wrap:wrap;gap:18px;list-style:none;margin:0;padding:0}
+nav a{text-decoration:none;font-weight:bold}nav a:hover{text-decoration:underline}
+.hero{background:var(--g);color:#fff;padding:48px 5%;display:grid;gap:24px}
+.hero h1{color:var(--y);font-size:clamp(2rem,6vw,3.5rem);margin:0}
+.hero h2{margin:0;font-weight:400}
+.btn{display:inline-block;background:var(--y);color:#000;border:0;border-radius:16px;padding:12px 24px;font:700 1rem "Trebuchet MS",sans-serif;cursor:pointer;text-decoration:none}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+section{padding:40px 5%}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:var(--card);border-radius:16px;padding:20px}
+.price{color:var(--o);font-weight:bold}
+.booking{max-width:560px;margin:0 auto;background:var(--card);border-radius:16px;padding:24px}
+.field{display:flex;flex-direction:column;margin-bottom:16px}
+label{font-weight:bold;margin-bottom:4px}
+input,select{padding:10px;border:2px solid var(--line);border-radius:8px;font:inherit;background:var(--bg);color:var(--fg)}
+input[aria-invalid="true"],select[aria-invalid="true"]{border-color:var(--err)}
+.error{color:var(--err);font-size:.9rem;min-height:1.2em;margin-top:4px}
+.notice{padding:10px;border-radius:8px;background:var(--bg);border-left:4px solid var(--o);margin-bottom:16px}
+.ok{border-left-color:var(--g)}
+footer{background:var(--g);color:#fff;padding:32px 5%;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+footer h2{color:var(--y);font-size:1rem}footer ul{list-style:none;padding:0;margin:0}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <a class="logo" href="#home" aria-label="Little Lemon home">🍋 Little Lemon</a>
+  <nav aria-label="Main navigation">
+    <ul><li><a href="#home">Home</a></li><li><a href="#menu">Menu</a></li><li><a href="#reserve">Reservations</a></li><li><a href="#about">About</a></li></ul>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero" id="home" aria-labelledby="hero-title">
+    <div>
+      <h1 id="hero-title">Little Lemon</h1>
+      <h2>Chicago</h2>
+      <p>A family-owned Mediterranean restaurant with traditional recipes served with a modern twist.</p>
+      <a class="btn" href="#reserve">Reserve a Table</a>
+    </div>
+  </section>
+
+  <section id="menu" aria-labelledby="menu-title">
+    <h2 id="menu-title">This week's specials</h2>
+    <div class="cards">
+      <article class="card"><h3>Greek Salad</h3><p class="price">$12.99</p><p>Crispy lettuce, peppers, olives and feta, with garlic and rosemary croutons.</p></article>
+      <article class="card"><h3>Bruschetta</h3><p class="price">$5.99</p><p>Grilled bread smeared with garlic and seasoned with salt and olive oil.</p></article>
+      <article class="card"><h3>Lemon Dessert</h3><p class="price">$5.00</p><p>Authentic family recipe, made with fresh lemons.</p></article>
+    </div>
+  </section>
+
+  <section id="reserve" aria-labelledby="book-title">
+    <div class="booking">
+      <h2 id="book-title">Book a table</h2>
+      <div id="confirm" class="notice ok" role="status" hidden></div>
+      <form id="form" novalidate aria-describedby="form-help">
+        <p id="form-help">All fields are required.</p>
+        <div id="status" class="notice" role="status" aria-live="polite" hidden></div>
+
+        <div class="field">
+          <label for="date">Date</label>
+          <input type="date" id="date" name="date" required aria-describedby="date-err">
+          <div class="error" id="date-err" aria-live="polite"></div>
+        </div>
+        <div class="field">
+          <label for="time">Time</label>
+          <select id="time" name="time" required aria-describedby="time-err"><option value="">Choose a date first</option></select>
+          <div class="error" id="time-err" aria-live="polite"></div>
+        </div>
+        <div class="field">
+          <label for="guests">Number of guests (1–10)</label>
+          <input type="number" id="guests" name="guests" min="1" max="10" value="2" required aria-describedby="guests-err">
+          <div class="error" id="guests-err" aria-live="polite"></div>
+        </div>
+        <div class="field">
+          <label for="occasion">Occasion</label>
+          <select id="occasion" name="occasion" required aria-describedby="occasion-err">
+            <option value="">Select an occasion</option><option>Birthday</option><option>Anniversary</option><option>Engagement</option><option>Other</option>
+          </select>
+          <div class="error" id="occasion-err" aria-live="polite"></div>
+        </div>
+        <button class="btn" id="submit" type="submit" aria-label="Make your reservation" disabled>Make Your Reservation</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="about" aria-labelledby="about-title">
+    <h2 id="about-title">About us</h2>
+    <p>Little Lemon is run by Mario and Adrian, who bring the flavours of the Mediterranean to Chicago with fresh, local ingredients.</p>
+  </section>
+</main>
+
+<footer>
+  <div><h2>Little Lemon</h2><p>Mediterranean cuisine, Chicago.</p></div>
+  <nav aria-label="Footer navigation"><h2>Navigation</h2><ul><li><a href="#home">Home</a></li><li><a href="#menu">Menu</a></li><li><a href="#reserve">Reservations</a></li></ul></nav>
+  <address><h2>Contact</h2><p>123 Lemon Street, Chicago<br>(312) 555-0100<br>hello@littlelemon.example</p></address>
+</footer>
+
+<script>
+(function(){
+  var f=document.getElementById('form'),dateEl=f.date,timeEl=f.time,guestsEl=f.guests,occEl=f.occasion,
+      btn=document.getElementById('submit'),status=document.getElementById('status'),confirmEl=document.getElementById('confirm');
+  var touched={};
+
+  // Local YYYY-MM-DD for today, used as the minimum date
+  function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+  dateEl.min=today();
+
+  // Deterministic pseudo-random available times per date (stands in for the course's fetchAPI)
+  function fetchTimes(dateStr){
+    var seed=0;for(var i=0;i<dateStr.length;i++)seed=(seed*31+dateStr.charCodeAt(i))%2147483647;
+    function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647;}
+    var out=[];for(var h=17;h<=22;h++){if(rnd()<.6)out.push(h+':00');if(rnd()<.4)out.push(h+':30');}
+    return out;
+  }
+  function booked(){try{return JSON.parse(localStorage.getItem('ll-bookings')||'[]');}catch(e){return [];}}
+  function save(b){try{var l=booked();l.push(b);localStorage.setItem('ll-bookings',JSON.stringify(l));return true;}catch(e){return true;}}
+
+  function loadTimes(){
+    status.hidden=true;
+    var d=dateEl.value;
+    if(!d||d<today()){timeEl.innerHTML='<option value="">Choose a valid date first</option>';return;}
+    var taken=booked().filter(function(b){return b.date===d;}).map(function(b){return b.time;});
+    var times=fetchTimes(d).filter(function(t){return taken.indexOf(t)<0;});
+    if(!times.length){
+      timeEl.innerHTML='<option value="">No times available</option>';
+      status.textContent='Sorry, we are fully booked on this date. Please choose another day.';status.hidden=false;return;
+    }
+    timeEl.innerHTML='<option value="">Select a time</option>'+times.map(function(t){return '<option>'+t+'</option>';}).join('');
+  }
+
+  var rules={
+    date:function(){if(!dateEl.value)return 'Please choose a date.';if(dateEl.value<today())return 'Date cannot be in the past.';return '';},
+    time:function(){return timeEl.value?'':'Please select an available time.';},
+    guests:function(){var n=Number(guestsEl.value);if(guestsEl.value==='')return 'Please enter the number of guests.';
+      if(!Number.isInteger(n))return 'Guests must be a whole number.';if(n<1)return 'At least 1 guest is required.';if(n>10)return 'We can seat a maximum of 10 guests online.';return '';},
+    occasion:function(){return occEl.value?'':'Please select an occasion.';}
+  };
+  var els={date:dateEl,time:timeEl,guests:guestsEl,occasion:occEl};
+
+  function validate(showAll){
+    var valid=true;
+    Object.keys(rules).forEach(function(k){
+      var msg=rules[k](),show=showAll||touched[k];
+      if(msg)valid=false;
+      document.getElementById(k+'-err').textContent=show?msg:'';
+      els[k].setAttribute('aria-invalid',show&&msg?'true':'false');
+    });
+    btn.disabled=!valid;return valid;
+  }
+
+  Object.keys(els).forEach(function(k){
+    els[k].addEventListener('blur',function(){touched[k]=true;validate();});
+    els[k].addEventListener('input',function(){validate();});
+    els[k].addEventListener('change',function(){touched[k]=true;validate();});
+  });
+  dateEl.addEventListener('change',function(){loadTimes();validate();});
+
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!validate(true)){var bad=f.querySelector('[aria-invalid="true"]');if(bad)bad.focus();return;}
+    var b={date:dateEl.value,time:timeEl.value,guests:Number(guestsEl.value),occasion:occEl.value};
+    if(!save(b)){status.textContent='Something went wrong saving your booking. Please try again.';status.hidden=false;return;}
+    confirmEl.textContent='Booking confirmed! '+b.guests+' guest(s) on '+b.date+' at '+b.time+' for a '+b.occasion.toLowerCase()+'. See you soon!';
+    confirmEl.hidden=false;confirmEl.setAttribute('tabindex','-1');confirmEl.focus();
+    f.reset();guestsEl.value=2;touched={};loadTimes();validate();
+  });
+  validate();
+})();
+</script>
+</body>
+</html>
